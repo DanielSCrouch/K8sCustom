@@ -1,0 +1,26 @@
+{
+  KUBERNETES_PUBLIC_ADDRESS=10.0.0.1
+
+  kubectl config set-cluster k8s_cluster  \
+    --certificate-authority=ca.pem \
+    --embed-certs=true \
+    --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443
+
+  kubectl config set-credentials admin \
+    --client-certificate=admin.pem \
+    --client-key=admin-key.pem
+
+  kubectl config set-context k8s_cluster \
+    --cluster=k8s_cluster \
+    --user=admin
+
+  kubectl config use-context k8s_cluster
+}
+
+
+
+{
+ scp ./certs/ca.pem 10.0.0.6:~/
+ scp ./certs/admin.pem 10.0.0.6:~/
+ scp ./certs/admin-key.pem 10.0.0.6:~/
+}
