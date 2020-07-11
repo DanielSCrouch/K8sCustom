@@ -619,32 +619,7 @@ blockquote {
 	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
 }
 	
-</style></head><body><article id="d8783ca5-49ae-414d-b445-a316fd071544" class="page sans"><header><h1 class="page-title">Kubernetes Lab</h1></header><div class="page-body"><p id="7f201448-5c7c-43d8-8c7a-637e1f19558d" class="">
-</p><h2 id="e448380c-2a36-4dea-b283-56579d4b27cc" class="">Cheatsheet</h2><pre id="da19782b-c2e4-449d-a7ec-f697ff837b1f" class="code"><code># View cluster configuration (kubeconfig files) 
-$ kubectl config view
-$ kubectl get pods 
-
-# SSH into node instances
-$ ssh dev@10.0.0.3
-
-# Make a HTTP request for the Kubernetes version info:
-curl --cacert ca.pem https://${KUBERNETES_PUBLIC_ADDRESS}:6443/version
-# Expected output 
-{
-  &quot;major&quot;: &quot;1&quot;,
-  &quot;minor&quot;: &quot;15&quot;,
-  &quot;gitVersion&quot;: &quot;v1.15.3&quot;,
-  &quot;gitCommit&quot;: &quot;2d3c76f9091b6bec110a5e63777c332469e0cba2&quot;,
-  &quot;gitTreeState&quot;: &quot;clean&quot;,
-  &quot;buildDate&quot;: &quot;2019-08-19T11:05:50Z&quot;,
-  &quot;goVersion&quot;: &quot;go1.12.9&quot;,
-  &quot;compiler&quot;: &quot;gc&quot;,
-  &quot;platform&quot;: &quot;linux/amd64&quot;
-}
-
-# Component status 
-kubectl get componentstatuses --kubeconfig admin.kubeconfig
-</code></pre><h1 id="25432a4a-116f-46fb-a61d-d525ebd16e92" class="">Provisioning Compute Nodes </h1><p id="2fb1301b-0d8b-4312-bac3-1c84d5f62174" class="">Three nodes will be available to the cluster, a master node and two workers. Each is a Ubuntu Server 20.04 virtual machine instance, hosted with VirtualBox. A base image is initially created, and then adapted to meet the node performance and networking requirements (e.g. unique MAC addresses, IP and resource allocation). </p><ul id="873da03f-3f33-42db-913e-7fd4837055cf" class="bulleted-list"><li>Download Ubuntu Server 20.04 ISO from: <a href="https://ubuntu.com/download/server">https://ubuntu.com/download/server</a></li></ul><ul id="a03ebc8f-ccb8-4c43-b10a-0a9966b2fdcb" class="bulleted-list"><li>Download and install Virtual Box from: <a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a></li></ul><ul id="15f10b25-b932-4006-8532-bc940b821416" class="bulleted-list"><li>From Virtual Box: <ol id="d3fc0a0c-be26-4840-9e74-6f6385af1317" class="numbered-list" start="1"><li>Create new image (2Gb RAM. 2 Cores, 10Gb storage) </li></ol><ol id="f12aa0b3-3632-4b23-8e7d-15059affe3c4" class="numbered-list" start="2"><li>Select &#x27;Create a virtual hard disk now&#x27; → VDI format → dynamic allocation </li></ol><ol id="a6790b27-3fc2-41a7-b04d-6eea651ede9c" class="numbered-list" start="3"><li>Create host-only network
+</style></head><body><article id="d8783ca5-49ae-414d-b445-a316fd071544" class="page sans"><header><h1 class="page-title">Kubernetes Lab</h1></header><div class="page-body"><p id="5933afa1-11b1-4714-84e4-65a0e11944ae" class="">Daniel Crouch </p><p id="1c85ec3f-1ef6-4f28-9fa0-7e080aa78fd8" class="">Original GCloud lab content: <a href="https://github.com/kelseyhightower/kubernetes-the-hard-way">https://github.com/kelseyhightower/kubernetes-the-hard-way</a> </p><figure id="4d90623c-6400-4a39-a8a3-b0e72b09d53a" class="image"><a href="Kubernetes%20Lab%204d90623c64004a39a8a3b0e72b09d53a/schematic.png"><img style="width:2119px" src="Kubernetes%20Lab%204d90623c64004a39a8a3b0e72b09d53a/schematic.png"/></a></figure><h1 id="25432a4a-116f-46fb-a61d-d525ebd16e92" class="">Provisioning Compute Nodes (VirtualBox) </h1><p id="2fb1301b-0d8b-4312-bac3-1c84d5f62174" class="">Three nodes will be available to the cluster, a master node and two workers. Each is a Ubuntu Server 20.04 virtual machine instance, hosted with VirtualBox. A base image is initially created, and then adapted to meet the node performance and networking requirements (e.g. unique MAC addresses, IP and resource allocation). </p><ul id="873da03f-3f33-42db-913e-7fd4837055cf" class="bulleted-list"><li>Download Ubuntu Server 20.04 ISO from: <a href="https://ubuntu.com/download/server">https://ubuntu.com/download/server</a></li></ul><ul id="a03ebc8f-ccb8-4c43-b10a-0a9966b2fdcb" class="bulleted-list"><li>Download and install Virtual Box from: <a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a></li></ul><ul id="15f10b25-b932-4006-8532-bc940b821416" class="bulleted-list"><li>From Virtual Box: <ol id="d3fc0a0c-be26-4840-9e74-6f6385af1317" class="numbered-list" start="1"><li>Create new image (2Gb RAM. 2 Cores, 10Gb storage) </li></ol><ol id="f12aa0b3-3632-4b23-8e7d-15059affe3c4" class="numbered-list" start="2"><li>Select &#x27;Create a virtual hard disk now&#x27; → VDI format → dynamic allocation </li></ol><ol id="a6790b27-3fc2-41a7-b04d-6eea651ede9c" class="numbered-list" start="3"><li>Create host-only network
 File → Host Network Manager → Create 
 name: vboxnet0,  dhcp disabled,  IP address: 10.0.0.1 (255.255.255.0) </li></ol><ol id="8cf7711f-d285-47eb-af8b-c2ccff7920c0" class="numbered-list" start="4"><li>Add network interfaces to image 
 Select Ubuntu image → Settings → Network 
@@ -681,7 +656,7 @@ $ ssh dev@10.0.0.3
 # to shutdown image from terminal 
 VBoxManage controlvm &lt;image name&gt; poweroff
 # or from within image terminal (via ssh) 
-dev@kubecontroller:~/$ sudo shutdown -h now </code></pre></li></ul><h1 id="8784e409-ac69-4981-82a2-625d1e5d2b8d" class="">Kubernetes Architecture </h1><p id="a175bd2f-9b0b-4cfd-8417-cb06bc25e4bc" class="">A Kubernetes cluster consists of one or more machines called <strong>Nodes</strong> than run containerised applications. The worker node(s) host <strong>Pods. </strong> The Control Plane manages the worker nodes and the Pods in the cluster. In production environments, the control plane usually runs across multiple computers, and a cluster usually runs multiple nodes, providing fault-tolerance and high availability. </p><p id="6ea5f796-2606-441b-97e3-88d309274c6e" class=""><strong>Control Plane:</strong> The container orchestration layer that exposes the API and interfaces </p><p id="034133d2-927d-4d09-b338-f595c0eefa04" class=""><strong>Pod:</strong> A set of running containers in the cluster </p><p id="3701f35e-8d11-4af3-b17a-33463d7d5060" class=""><strong>Node:</strong> Worker machine, e.g. physical or virtual compute resource </p><figure id="93104953-17bf-48a2-8fea-bf0deb76351f" class="image"><a href="Kubernetes%20Lab%209310495317bf48a28feabf0deb76351f/components.png"><img style="width:632px" src="Kubernetes%20Lab%209310495317bf48a28feabf0deb76351f/components.png"/></a></figure><p id="f88279d8-19ab-437d-b29b-141fd0736998" class=""><strong>kube-api-server</strong></p><p id="43a6959d-e121-40a4-93c3-2a3b43aff6fb" class="">The front end for the Kubernetes control plane, validates and configures data for the API objects which include pods, services, replication controllers, and others. </p><p id="8b537682-74b8-45ef-a0f9-83f6023f9c62" class=""><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/">https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/</a></p><p id="892acdb2-18f6-43b5-a723-21c4678465ed" class=""><strong>kube-scheduler</strong> </p><p id="c6b8584a-1eba-4718-a632-ce1949df36aa" class="">A control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on. </p><p id="cc4596a1-2631-4327-99bb-4e0521883c52" class=""><strong>kube-controller-manager</strong></p><p id="b4342e08-496a-417c-a2aa-92fb8e0f2da0" class="">A control plane component that runs controller processes. A controller process is a loop that watches the shared state of the cluster through the kube-apiserver, and makes changes attempting to move the current state towards the declared desired state. </p><p id="2b48597f-e1a8-46fa-ae0a-2f5c87f6caac" class=""><strong>cloud-controller-manager </strong></p><p id="1978f4f3-af94-439c-9325-507decda7c31" class="">A control plane component that embeds cloud-specific control logic, enabling a link between the cluster and a cloud providers API. Hence, not required if outside of a cloud environment. </p><p id="d289ea6b-7b6b-49c4-aff3-0481e15930e9" class=""><strong>etcd </strong></p><p id="def5de6e-83cc-4d69-8cd7-33507501fbc8" class="">Consistent and highly-available key value store used as Kubernetes&#x27; &#x27;backing store&#x27; for all cluster data. </p><p id="8d6e2660-0846-464a-8355-32922884f01c" class=""><strong>kubelet </strong></p><p id="e8694ffd-f527-4bef-a077-080020d13e78" class="">An agent that runs on each node in the cluster. Ensures that containers are running within a Pod. The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. </p><p id="81ff2870-493d-4cff-baa3-354b6b765bd6" class=""><strong>kube-proxy</strong> </p><p id="07f76c7e-6785-465e-a642-70da439767c1" class="">kube-proxy is a network proxy that runs on each node in the cluster, implementing part of the Kubernetes Service concept.
+dev@kubecontroller:~/$ sudo shutdown -h now </code></pre></li></ul><h1 id="8784e409-ac69-4981-82a2-625d1e5d2b8d" class="">Kubernetes Architecture </h1><p id="a175bd2f-9b0b-4cfd-8417-cb06bc25e4bc" class="">A Kubernetes cluster consists of one or more machines called <strong>Nodes</strong> than run containerised applications. The worker node(s) host <strong>Pods. </strong> The Control Plane manages the worker nodes and the Pods in the cluster. In production environments, the control plane usually runs across multiple computers, and a cluster usually runs multiple nodes, providing fault-tolerance and high availability. </p><p id="6ea5f796-2606-441b-97e3-88d309274c6e" class=""><strong>Control Plane:</strong> The container orchestration layer that exposes the API and interfaces </p><p id="034133d2-927d-4d09-b338-f595c0eefa04" class=""><strong>Pod:</strong> A set of running containers in the cluster </p><p id="3701f35e-8d11-4af3-b17a-33463d7d5060" class=""><strong>Node:</strong> Worker machine, e.g. physical or virtual compute resource </p><figure id="93104953-17bf-48a2-8fea-bf0deb76351f" class="image"><a href="Kubernetes%20Lab%204d90623c64004a39a8a3b0e72b09d53a/components.png"><img style="width:632px" src="Kubernetes%20Lab%204d90623c64004a39a8a3b0e72b09d53a/components.png"/></a></figure><p id="f88279d8-19ab-437d-b29b-141fd0736998" class=""><strong>kube-api-server</strong></p><p id="43a6959d-e121-40a4-93c3-2a3b43aff6fb" class="">The front end for the Kubernetes control plane, validates and configures data for the API objects which include pods, services, replication controllers, and others. </p><p id="8b537682-74b8-45ef-a0f9-83f6023f9c62" class=""><a href="https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/">https://kubernetes.io/docs/reference/command-line-tools-reference/kube-apiserver/</a></p><p id="892acdb2-18f6-43b5-a723-21c4678465ed" class=""><strong>kube-scheduler</strong> </p><p id="c6b8584a-1eba-4718-a632-ce1949df36aa" class="">A control plane component that watches for newly created Pods with no assigned node, and selects a node for them to run on. </p><p id="cc4596a1-2631-4327-99bb-4e0521883c52" class=""><strong>kube-controller-manager</strong></p><p id="b4342e08-496a-417c-a2aa-92fb8e0f2da0" class="">A control plane component that runs controller processes. A controller process is a loop that watches the shared state of the cluster through the kube-apiserver, and makes changes attempting to move the current state towards the declared desired state. </p><p id="2b48597f-e1a8-46fa-ae0a-2f5c87f6caac" class=""><strong>cloud-controller-manager </strong></p><p id="1978f4f3-af94-439c-9325-507decda7c31" class="">A control plane component that embeds cloud-specific control logic, enabling a link between the cluster and a cloud providers API. Hence, not required if outside of a cloud environment. </p><p id="d289ea6b-7b6b-49c4-aff3-0481e15930e9" class=""><strong>etcd </strong></p><p id="def5de6e-83cc-4d69-8cd7-33507501fbc8" class="">Consistent and highly-available key value store used as Kubernetes&#x27; &#x27;backing store&#x27; for all cluster data. </p><p id="8d6e2660-0846-464a-8355-32922884f01c" class=""><strong>kubelet </strong></p><p id="e8694ffd-f527-4bef-a077-080020d13e78" class="">An agent that runs on each node in the cluster. Ensures that containers are running within a Pod. The kubelet takes a set of PodSpecs that are provided through various mechanisms and ensures that the containers described in those PodSpecs are running and healthy. </p><p id="81ff2870-493d-4cff-baa3-354b6b765bd6" class=""><strong>kube-proxy</strong> </p><p id="07f76c7e-6785-465e-a642-70da439767c1" class="">kube-proxy is a network proxy that runs on each node in the cluster, implementing part of the Kubernetes Service concept.
 Maintains network rules on nodes. These network rules allow network communication to Pods from network sessions inside or outside of the cluster. kube-proxy uses the operating system packet filtering layer if there is one and it&#x27;s available. Otherwise, kube-proxy forwards the traffic itself. </p><p id="b42fbfa9-0346-4f5d-89bc-60ce5778bde6" class=""><strong>Container runtime</strong></p><p id="84172c97-4a58-4d17-a339-4fad4c7ad03f" class="">Software running on a worker node that is responsible for running containers. Several container runtimes are supported including Docker and containerd. </p><h1 id="d0fadad7-1ed5-45aa-ba73-26bd2409e1ec" class="">Cluster Authentication </h1><p id="997729b9-ff2e-45dd-9390-d55d1aa78e52" class="">Each component within the Kubernetes cluster must be able to verify and communicate with the API server. Authentication is managed through the Transfer Layer Security (TLS) protocol. </p><p id="b7570c92-6c23-4c07-a36c-1425915d8e5c" class="">Public Key Infrastructure (PKI) is a back-end cybersecurity measure for verifying user identities through digital certificates.</p><p id="76db957d-81a3-4a93-bda5-d07190a210c3" class=""><a href="https://blog.container-solutions.com/kubernetes-the-hard-way-explained-chapter-4">https://blog.container-solutions.com/kubernetes-the-hard-way-explained-chapter-4</a></p><p id="6dd57b39-4360-4f2b-9df4-ab77ddf6d69f" class="">Each component therefore, requires a certificate and a private key derived from a Certificate Authority (CA). </p><ul id="5ac0f7f1-0f89-40e7-87f8-efe9badeecd4" class="bulleted-list"><li>admin user (kubectl client)</li></ul><ul id="66511072-c739-4f1b-8cf3-605bc40af987" class="bulleted-list"><li>kubelet (one per worker node) </li></ul><ul id="939d7840-e48f-4d5c-bcad-9224964968af" class="bulleted-list"><li>kube-proxy </li></ul><ul id="feb11251-c64a-47cb-abce-cab4caf696e3" class="bulleted-list"><li>kube-controller-manager </li></ul><ul id="528ff447-7073-4e51-b84d-c637e971f2bf" class="bulleted-list"><li>kube-scheduler </li></ul><ul id="461a6fbf-b753-4ad5-9ea3-957ff66ebf48" class="bulleted-list"><li>kube-api-server </li></ul><ul id="6636aaad-51bc-40cb-9bb6-ded52306e7a2" class="bulleted-list"><li>service account </li></ul><p id="1ebc4460-d1a6-4429-962b-469e61a89ff7" class=""><em>Generate the keys on the host. There is no requirement for the worker nodes to have cfssl, and the certs and keys will be distributed later. </em></p><p id="e8b3900e-5d8d-431d-8593-7675607fc628" class=""><strong>Users</strong></p><p id="eb2fb6b1-da16-4cdf-bcfd-e7c03670e050" class="">All Kubernetes clusters have two categories of users: service accounts and normal users. API requests are tied to either type of user, or treated as anonymous requests. This means every process, inside or outside the cluster, must authenticate when making requests to the API server. </p><p id="fd5adff8-2afe-4aee-a4c3-aa42e90be49a" class=""><a href="https://kubernetes.io/docs/reference/access-authn-authz/authentication/">https://kubernetes.io/docs/reference/access-authn-authz/authentication/</a></p><p id="1cfc3a5b-f55e-427b-88d8-c8e56bec445f" class=""><strong>Normal users</strong></p><p id="1a5fb4a8-82bc-42a3-b423-76fdf7ab99d5" class="">Normal users are assumed to be managed by an outside service. Users interact with the cluster through the web API or the kubectl tool. Any user that presents a valid certificate signed by the cluster&#x27;s certificate authority (CA) is considered authenticated. Kubernetes determines the username from the common name field in the &#x27;subject&#x27; of the cert (e.g. &quot;/CN=bob&quot;). From there, the Role-Based Access Control (RBAC) sub-system would determine whether the user is authorized to perform a specific operation on a resource.</p><p id="88ec049c-58f9-4081-8d4d-76a0b883f9f7" class=""><a href="https://sysdig.com/blog/kubernetes-security-rbac-tls/">https://sysdig.com/blog/kubernetes-security-rbac-tls/</a></p><p id="52c22e79-c209-4f20-b92b-b02978c8c36b" class=""><a href="https://kubernetes.io/docs/reference/access-authn-authz/controlling-access/">https://kubernetes.io/docs/reference/access-authn-authz/controlling-access/</a></p><p id="29efb23f-f4f5-4d76-9bf7-459351344956" class=""><a href="https://unofficial-kubernetes.readthedocs.io/en/latest/admin/accessing-the-api/">https://unofficial-kubernetes.readthedocs.io/en/latest/admin/accessing-the-api/</a></p><p id="23311322-bbc2-4416-bfa5-af3f084dcdce" class=""><strong>Service account</strong></p><p id="00d7d406-b71b-4473-be8f-440736831492" class="">Service accounts are users managed by the API. They are bound to specific namespaces, and created automatically by the API server or manually through API calls. Service accounts are tied to a set of credentials stored as <em>secrets</em>, which are mounted into pods allowing in-cluster processes to talk to the API. </p><p id="f9f70743-2e98-4024-b7c5-222a5f9a3ded" class=""><strong>Tools</strong></p><p id="47bcce06-1857-43c2-aabc-d4dfdd2f7aeb" class="">cfssl: enables signing, verifying, and bundling of TLS certificates</p><p id="bc9e5aff-d664-4454-828f-1268d5ebb7a5" class="">cfssljson: used to parse JSON responses from the cfssl server</p><p id="82cff638-0328-43b3-b777-dfe84f0d8584" class=""><a href="https://github.com/cloudflare/cfssl">https://github.com/cloudflare/cfssl</a></p><pre id="bbf23d88-fbfa-4332-8808-a004278e554b" class="code"><code>$ go get -u github.com/cloudflare/cfssl/cmd/cfssl
 $ go get -u github.com/cloudflare/cfssl/cmd/cfssljson</code></pre><p id="2acb7bbd-3693-415f-9000-c758b51d2786" class="">
 </p><p id="831b2cfe-862d-4524-a7bf-821c71c408a5" class=""><strong>Certification Authority (CA)</strong> </p><p id="41b62edb-17ee-401e-acc8-169ff78963c5" class="">A cluster is bootstrapped/provisioned as a Certification Authority (CA), providing a CA certificate and private key. </p><p id="83f7164a-aa80-4194-9129-74853527cafc" class="">Calls to the API must present a certificate that self-identifies the requester. This must be signed by the CA. Any API server, node, etc. that is going to sign a certificate therefore needs to be issued with a copy of the CA private key. </p><p id="4c0b2d02-50d5-48c7-9feb-fb8391294910" class=""><strong>ca-config.json: </strong>specifies the configuration of the certificate authority (expiration time and profile). </p><pre id="38fd9ac7-9505-4d08-b289-83027c5ed408" class="code"><code>cat &gt; ca-config.json &lt;&lt;EOF
@@ -1070,9 +1045,9 @@ for instance in &quot;${masters[@]}&quot;; do
   scp ./configs/kube-controller-manager.kubeconfig &quot;${address[$instance]}&quot;:~/
   scp ./configs/kube-scheduler.kubeconfig &quot;${address[$instance]}&quot;:~/
 done</code></pre><p id="4adeb1e1-e02f-4992-a055-7ed7368d20e4" class=""><em>Above script assumes all keys generated in previous steps have been moved to a sub-directory titled </em><em><mark class="highlight-gray_background">configs</mark></em><em>.</em></p><p id="bd59e4ec-c335-4fda-9dbf-ce3840e87aef" class="">
-</p><h1 id="7544931d-1c80-41b6-83f2-48fe6f86cf8a" class="">Cluster Data Encryption</h1><p id="e688d39f-0ac6-47fc-b4c9-d077ad48e8bb" class="">Kubernetes stores a variety of data including cluster state, application configurations, and secrets. In this project, data is stored in the etcd cluster. Kubernetes supports the ability to encrypt cluster data at rest using an encryption config. </p><p id="6653d022-5d21-4d03-8bec-ef62b0555bb1" class=""><a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#understanding-the-encryption-at-rest-configuration">https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#understanding-the-encryption-at-rest-configuration</a></p><pre id="ec608bbc-af89-401a-9fb5-98b115a2fd0d" class="code"><code>ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
+</p><h1 id="7544931d-1c80-41b6-83f2-48fe6f86cf8a" class="">Cluster Data Encryption</h1><p id="e688d39f-0ac6-47fc-b4c9-d077ad48e8bb" class="">Kubernetes stores a variety of data including cluster state, application configurations, and secrets. In this project, data is stored in the etcd cluster. Kubernetes supports the ability to encrypt cluster data at rest using an encryption config. </p><p id="6653d022-5d21-4d03-8bec-ef62b0555bb1" class=""><a href="https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#understanding-the-encryption-at-rest-configuration">https://kubernetes.io/docs/tasks/administer-cluster/encrypt-data/#understanding-the-encryption-at-rest-configuration</a></p><pre id="ec608bbc-af89-401a-9fb5-98b115a2fd0d" class="code"><code>$ ENCRYPTION_KEY=$(head -c 32 /dev/urandom | base64)
 
-cat &gt; encryption-config.yaml &lt;&lt;EOF
+$ cat &gt; encryption-config.yaml &lt;&lt;EOF
 kind: EncryptionConfig
 apiVersion: v1
 resources:
@@ -1097,7 +1072,7 @@ $ rm -r etcd-v3.4.0-linux-amd64.tar.gz
 $ sudo mv etcd-v3.4.0-linux-amd64/etcd* /usr/local/bin/
 $ rm -r etcd-v3.4.0-linux-amd64/</code></pre></li></ol><ol id="f09719d4-3712-4228-bfd9-71b4729b8b9d" class="numbered-list" start="3"><li>Configure the etcd server (run from home/dev/ or ~/) <pre id="4b2ee745-e15d-44ac-bb70-cf3958d52e4a" class="code"><code>$ sudo sudo mkdir -p /etc/etcd /var/lib/etcd
 $ sudo sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/</code></pre></li></ol><ol id="57a6fdbb-c890-4fd3-b474-4b91d3594df3" class="numbered-list" start="4"><li>The instance internal IP address will be used to serve client requests and communicate with etcd cluster peers. Each etcd member must have a unique name within an etcd cluster. <pre id="4f66fe28-3597-4252-a57d-704e5be8a027" class="code"><code>$ INTERNAL_IP=10.0.0.3 # internal IP for instance
-$ ETCD_NAME=$(hostname -s)etcd</code></pre></li></ol><ol id="3bff12d6-3821-4864-9714-7222a886e34c" class="numbered-list" start="5"><li>Create the etcd.service systemd unit file <pre id="7b4ceae0-d7e0-40f2-8cfb-0482025f8b6b" class="code"><code>cat &lt;&lt;EOF | sudo tee /etc/systemd/system/etcd.service
+$ ETCD_NAME=$(hostname -s)etcd</code></pre></li></ol><ol id="3bff12d6-3821-4864-9714-7222a886e34c" class="numbered-list" start="5"><li>Create the etcd.service systemd unit file <pre id="7b4ceae0-d7e0-40f2-8cfb-0482025f8b6b" class="code"><code>$ cat &lt;&lt;EOF | sudo tee /etc/systemd/system/etcd.service
 [Unit]
 Description=etcd
 Documentation=https://github.com/coreos
@@ -1130,13 +1105,13 @@ WantedBy=multi-user.target
 EOF</code></pre><p id="a39e1ed4-67bf-49db-bd7d-3588cfa7018d" class="">
 </p></li></ol><ol id="6f21b90e-16ab-42b7-ba78-7eaf1ec0f770" class="numbered-list" start="6"><li>Start the etcd server <pre id="56f33352-6938-4148-8ea2-dea45046e9c8" class="code"><code>$ sudo systemctl daemon-reload
 $ sudo systemctl enable etcd
-$ sudo systemctl start etcd</code></pre></li></ol><ol id="9bfac0da-0173-4ff1-b6b2-cf274375672b" class="numbered-list" start="7"><li>Verification, list the etcd cluster members<pre id="fb31ab91-c919-43e1-8cf4-18b00e656461" class="code"><code>sudo ETCDCTL_API=3 etcdctl member list \
+$ sudo systemctl start etcd</code></pre></li></ol><ol id="9bfac0da-0173-4ff1-b6b2-cf274375672b" class="numbered-list" start="7"><li>Verification, list the etcd cluster members<pre id="fb31ab91-c919-43e1-8cf4-18b00e656461" class="code"><code>$ sudo ETCDCTL_API=3 etcdctl member list \
   --endpoints=https://127.0.0.1:2379 \
   --cacert=/etc/etcd/ca.pem \
   --cert=/etc/etcd/kubernetes.pem \
   --key=/etc/etcd/kubernetes-key.pem</code></pre><p id="78e48492-9a7f-4741-983d-1bd731261716" class="">Expected output: </p><pre id="a6020006-602c-47b4-804f-4bca17053523" class="code"><code>3a57933972cb5131, started, kubemaster1, https://10.0.0.3:2380, https://10.0.0.3:2379
 f98dc20bce6225a0, started, kubemaster2, https://10.0.0.4:2380, https://10.0.0.4:2379</code></pre></li></ol><p id="13531670-e05d-4975-a22d-2c74d045646f" class="">
-</p><h1 id="0d090fd1-8102-431d-ab3d-49cf3f45d1b2" class="">Bootstrapping the Control Plane</h1><p id="fc48b51a-3a71-4324-bf95-03f43eddf53b" class="">This section will bootstrap the Kubernetes control plane across the compute instance(s) and configure it for high availability. </p><p id="a5911291-8dae-4ae9-b466-1efa994e5e71" class="">The configuration for this section must be run for each master instance: <mark class="highlight-gray_background">kubemaster1</mark>, <mark class="highlight-gray_background">kubemaster2</mark> via SSH. </p><ol id="a4f7ca09-9e5f-4ee9-acbf-5dd011ee3f36" class="numbered-list" start="1"><li>Create the Kubernetes configuration directory <pre id="37c62451-5b2f-4ae2-b8e0-29067e3427a1" class="code"><code>sudo mkdir -p /etc/kubernetes/config</code></pre></li></ol><ol id="32985a3b-c50f-432b-9736-c00776961059" class="numbered-list" start="2"><li>Download the official kube-apiserver, kube-controller-manager, kube-scheduler and kubectl binaries. 
+</p><h1 id="0d090fd1-8102-431d-ab3d-49cf3f45d1b2" class="">Bootstrapping the Control Plane</h1><p id="fc48b51a-3a71-4324-bf95-03f43eddf53b" class="">This section will bootstrap the Kubernetes control plane across the compute instance(s) and configure it for high availability. </p><p id="a5911291-8dae-4ae9-b466-1efa994e5e71" class="">The configuration for this section must be run for each master instance: <mark class="highlight-gray_background">kubemaster1</mark>, <mark class="highlight-gray_background">kubemaster2</mark> via SSH. </p><ol id="a4f7ca09-9e5f-4ee9-acbf-5dd011ee3f36" class="numbered-list" start="1"><li>Create the Kubernetes configuration directory <pre id="37c62451-5b2f-4ae2-b8e0-29067e3427a1" class="code"><code>$ sudo mkdir -p /etc/kubernetes/config</code></pre></li></ol><ol id="32985a3b-c50f-432b-9736-c00776961059" class="numbered-list" start="2"><li>Download the official kube-apiserver, kube-controller-manager, kube-scheduler and kubectl binaries. 
 <mark class="highlight-red">Pull from git?</mark><pre id="97f2a922-d14e-441a-a8da-1ca2938da363" class="code"><code>$ wget -q --show-progress --https-only --timestamping \
   &quot;https://storage.googleapis.com/kubernetes-release/release/v1.15.3/bin/linux/amd64/kube-apiserver&quot;
 $ wget -q --show-progress --https-only --timestamping \
@@ -1146,14 +1121,14 @@ $ wget -q --show-progress --https-only --timestamping \
 $ wget -q --show-progress --https-only --timestamping \
   &quot;https://storage.googleapis.com/kubernetes-release/release/v1.15.3/bin/linux/amd64/kubectl&quot;</code></pre></li></ol><ol id="44f43246-4e7b-418d-9399-0706a2278b9f" class="numbered-list" start="3"><li>Install downloaded binaries <pre id="26b94ea7-266e-452e-ad23-74c9b018f363" class="code"><code>$ chmod +x kube-apiserver kube-controller-manager kube-scheduler kubectl
 $ sudo mv kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/</code></pre></li></ol><p id="cc5ceaa6-863c-4cb5-a750-e307d94acdc8" class="">
-</p><p id="2e07ca18-d7f9-4691-876a-66ad789ef531" class=""><strong>Kubernetes API Sever Configuration</strong></p><ol id="655498d9-8be1-4d9a-b6fd-0639b39a4c55" class="numbered-list" start="1"><li>Configure the API server (run from /home/dev or ~/) <pre id="adf10b37-ecd3-4fdc-96b7-a0e57f891e19" class="code"><code>sudo mkdir -p /var/lib/kubernetes/
+</p><p id="2e07ca18-d7f9-4691-876a-66ad789ef531" class=""><strong>Kubernetes API Sever Configuration</strong></p><ol id="655498d9-8be1-4d9a-b6fd-0639b39a4c55" class="numbered-list" start="1"><li>Configure the API server (run from /home/dev or ~/) <pre id="adf10b37-ecd3-4fdc-96b7-a0e57f891e19" class="code"><code>$ sudo mkdir -p /var/lib/kubernetes/
 
-sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
+$ sudo mv ca.pem ca-key.pem kubernetes-key.pem kubernetes.pem \
     service-account-key.pem service-account.pem \
     encryption-config.yaml /var/lib/kubernetes/</code></pre></li></ol><ol id="b7c0c3e3-b7ce-4af2-be07-4f00d92d645d" class="numbered-list" start="2"><li>The instance internal IP address will be used to advertise the API Server to members of the cluster. Retrieve the internal IP address for the current compute instance
 <mark class="highlight-red">Note: service-cluster-ip-range defined (search 10.32.0.1, related to DNS assignment of &#x27;kubernetes&#x27;) </mark><pre id="f22acd8b-c388-4f42-85e7-505619d9662e" class="code"><code>INTERNAL_IP=10.0.0.3 # set to internal IP of node 
 
-cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-apiserver.service
+$ cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-apiserver.service
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/kubernetes/kubernetes
@@ -1194,8 +1169,8 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF</code></pre></li></ol><p id="11cc2b91-c913-46a5-beed-ed6f6ac45421" class="">
-</p><p id="c9a4deef-ab68-4927-b5d7-1d796bad6130" class=""><strong>Kubernetes Controller Manager Configuration</strong></p><ol id="7735e8dc-73a9-4c58-83a8-0b6d6ef5da23" class="numbered-list" start="1"><li>Move the kubeconfig into place (run from /home/dev or ~/) <pre id="3edf342e-1016-47dd-b993-fe8731caaff5" class="code"><code>sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/</code></pre></li></ol><ol id="7936f0d5-89d5-4ae3-b642-adb88550ec84" class="numbered-list" start="2"><li>Create the kube-controller-manager.service systemd unit file 
-<mark class="highlight-red">Note: cluster-cidr and service-cluster-ip-range defined</mark><pre id="39098a9c-62b0-4435-b885-2ca3ee4d1e27" class="code"><code>cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-controller-manager.service
+</p><p id="c9a4deef-ab68-4927-b5d7-1d796bad6130" class=""><strong>Kubernetes Controller Manager Configuration</strong></p><ol id="7735e8dc-73a9-4c58-83a8-0b6d6ef5da23" class="numbered-list" start="1"><li>Move the kubeconfig into place (run from /home/dev or ~/) <pre id="3edf342e-1016-47dd-b993-fe8731caaff5" class="code"><code>$ sudo mv kube-controller-manager.kubeconfig /var/lib/kubernetes/</code></pre></li></ol><ol id="7936f0d5-89d5-4ae3-b642-adb88550ec84" class="numbered-list" start="2"><li>Create the kube-controller-manager.service systemd unit file 
+<mark class="highlight-red">Note: cluster-cidr and service-cluster-ip-range defined</mark><pre id="39098a9c-62b0-4435-b885-2ca3ee4d1e27" class="code"><code>$ cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-controller-manager.service
 [Unit]
 Description=Kubernetes Controller Manager
 Documentation=https://github.com/kubernetes/kubernetes
@@ -1220,14 +1195,14 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF</code></pre></li></ol><p id="8a728a43-949e-468b-a4fe-558c689904db" class="">
-</p><p id="65ee9495-7eb2-4258-9259-00fd7b37cdef" class=""><strong>Kubernetes Scheduler Configuration </strong></p><ol id="a6558a26-91a8-4a79-9cef-e0c9c6b05dbf" class="numbered-list" start="1"><li>Move the kubeconfig into place (run from /home/dev or ~/) <pre id="bf3a9bcd-3b9b-42f9-bebb-feee8eb794de" class="code"><code>sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/</code></pre></li></ol><ol id="57d90b3d-efcf-48f1-91a6-a298b280d9cb" class="numbered-list" start="2"><li>Create the kube-scheduler.yaml configuration file<pre id="8f33e9e7-af41-48d6-bfc2-ad5c936d263e" class="code"><code>cat &lt;&lt;EOF | sudo tee /etc/kubernetes/config/kube-scheduler.yaml
+</p><p id="65ee9495-7eb2-4258-9259-00fd7b37cdef" class=""><strong>Kubernetes Scheduler Configuration </strong></p><ol id="a6558a26-91a8-4a79-9cef-e0c9c6b05dbf" class="numbered-list" start="1"><li>Move the kubeconfig into place (run from /home/dev or ~/) <pre id="bf3a9bcd-3b9b-42f9-bebb-feee8eb794de" class="code"><code>$ sudo mv kube-scheduler.kubeconfig /var/lib/kubernetes/</code></pre></li></ol><ol id="57d90b3d-efcf-48f1-91a6-a298b280d9cb" class="numbered-list" start="2"><li>Create the kube-scheduler.yaml configuration file<pre id="8f33e9e7-af41-48d6-bfc2-ad5c936d263e" class="code"><code>$ cat &lt;&lt;EOF | sudo tee /etc/kubernetes/config/kube-scheduler.yaml
 apiVersion: kubescheduler.config.k8s.io/v1alpha1
 kind: KubeSchedulerConfiguration
 clientConnection:
   kubeconfig: &quot;/var/lib/kubernetes/kube-scheduler.kubeconfig&quot;
 leaderElection:
   leaderElect: true
-EOF</code></pre></li></ol><ol id="deb8fe21-91c2-4b06-9e5e-b03ad7fc1cda" class="numbered-list" start="3"><li>Create the kube-scheduler.service systemd unit file <pre id="6e3a116b-5f2c-46c2-bd4c-87e454496332" class="code"><code>cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-scheduler.service
+EOF</code></pre></li></ol><ol id="deb8fe21-91c2-4b06-9e5e-b03ad7fc1cda" class="numbered-list" start="3"><li>Create the kube-scheduler.service systemd unit file <pre id="6e3a116b-5f2c-46c2-bd4c-87e454496332" class="code"><code>$ cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-scheduler.service
 [Unit]
 Description=Kubernetes Scheduler
 Documentation=https://github.com/kubernetes/kubernetes
@@ -1252,7 +1227,7 @@ NAME                 STATUS    MESSAGE              ERROR
 controller-manager   Healthy   ok
 scheduler            Healthy   ok
 etcd-0               Healthy   {&quot;health&quot;: &quot;true&quot;}
-etcd-1               Healthy   {&quot;health&quot;: &quot;true&quot;}</code></pre><p id="6c7dc040-ddcf-47f3-9e63-707588e62218" class="">Health check queries may fail if router through some types of load balancers that do not support HTTPS health checks. An intermediate server can solve the problem.. see: </p><p id="7425e5c7-4878-4f1d-b4df-fca106616f2f" class=""><a href="https://github.com/DanielSCrouch/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md">https://github.com/DanielSCrouch/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md</a></p><h1 id="fd915e87-482d-4a7b-b46a-92e7f3f69de1" class="">RBAC for Kubelet Authorisation </h1><p id="b8468837-939b-4c90-ae2c-6e08614a22da" class="">Configure RBAC permissions to allow the Kubernetes API Server to access the Kubelet API on each worker node. Access to the Kubelet API is required for retrieving metrics, logs, and executing commands in pods.</p><p id="fdc8cb49-a280-49d2-83c5-5f2062e0215e" class="">This section sets the Kubelet --authorization-mode flag to Webhook. Webhook mode uses the SubjectAccessReview API to determine authorization.</p><p id="5f629195-0d0c-4c6b-a18a-0558e60dda6d" class=""><a href="https://kubernetes.io/docs/reference/access-authn-authz/authorization/#checking-api-access">https://kubernetes.io/docs/reference/access-authn-authz/authorization/#checking-api-access</a></p><p id="328a00f2-b5f7-4198-a915-3da03c06ba08" class="">The commands in this section will effect the entire cluster and only need to be run once from one of the controller nodes.</p><ol id="bc6fa7d0-48b2-45c4-9688-5691b537dce3" class="numbered-list" start="1"><li>Create the system:kube-apiserver-to-kubelet ClusterRole with permissions to access the Kubelet API and perform most common tasks associated with managing pods<pre id="fa211f97-436b-4ad0-9cde-d2764699251d" class="code"><code>cat &lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
+etcd-1               Healthy   {&quot;health&quot;: &quot;true&quot;}</code></pre><p id="6c7dc040-ddcf-47f3-9e63-707588e62218" class="">Health check queries may fail if router through some types of load balancers that do not support HTTPS health checks. An intermediate server can solve the problem.. see: </p><p id="7425e5c7-4878-4f1d-b4df-fca106616f2f" class=""><a href="https://github.com/DanielSCrouch/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md">https://github.com/DanielSCrouch/kubernetes-the-hard-way/blob/master/docs/08-bootstrapping-kubernetes-controllers.md</a></p><h1 id="fd915e87-482d-4a7b-b46a-92e7f3f69de1" class="">RBAC for Kubelet Authorisation </h1><p id="b8468837-939b-4c90-ae2c-6e08614a22da" class="">Configure RBAC permissions to allow the Kubernetes API Server to access the Kubelet API on each worker node. Access to the Kubelet API is required for retrieving metrics, logs, and executing commands in pods.</p><p id="fdc8cb49-a280-49d2-83c5-5f2062e0215e" class="">This section sets the Kubelet --authorization-mode flag to Webhook. Webhook mode uses the SubjectAccessReview API to determine authorization.</p><p id="5f629195-0d0c-4c6b-a18a-0558e60dda6d" class=""><a href="https://kubernetes.io/docs/reference/access-authn-authz/authorization/#checking-api-access">https://kubernetes.io/docs/reference/access-authn-authz/authorization/#checking-api-access</a></p><p id="328a00f2-b5f7-4198-a915-3da03c06ba08" class="">The commands in this section will effect the entire cluster and only need to be run once from one of the controller nodes.</p><ol id="bc6fa7d0-48b2-45c4-9688-5691b537dce3" class="numbered-list" start="1"><li>Create the system:kube-apiserver-to-kubelet ClusterRole with permissions to access the Kubelet API and perform most common tasks associated with managing pods<pre id="fa211f97-436b-4ad0-9cde-d2764699251d" class="code"><code>$ cat &lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRole
 metadata:
@@ -1272,7 +1247,7 @@ rules:
       - nodes/metrics
     verbs:
       - &quot;*&quot;
-EOF</code></pre><p id="290e35a3-2813-4d15-8bc2-ffdd562d0ced" class="">The Kubernetes API Server authenticates to the Kubelet as the kubernetes user using the client certificate as defined by the --kubelet-client-certificate flag.</p></li></ol><ol id="430775c9-780e-42e5-879c-7bd44c35835c" class="numbered-list" start="2"><li>Bind the system:kube-apiserver-to-kubelet ClusterRole to the kubernetes user<pre id="2e0b6bb7-372a-48c5-ace6-eded1b03e0be" class="code"><code>cat &lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
+EOF</code></pre><p id="290e35a3-2813-4d15-8bc2-ffdd562d0ced" class="">The Kubernetes API Server authenticates to the Kubelet as the kubernetes user using the client certificate as defined by the --kubelet-client-certificate flag.</p></li></ol><ol id="430775c9-780e-42e5-879c-7bd44c35835c" class="numbered-list" start="2"><li>Bind the system:kube-apiserver-to-kubelet ClusterRole to the kubernetes user<pre id="2e0b6bb7-372a-48c5-ace6-eded1b03e0be" class="code"><code>$ cat &lt;&lt;EOF | kubectl apply --kubeconfig admin.kubeconfig -f -
 apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: ClusterRoleBinding
 metadata:
@@ -1351,20 +1326,20 @@ root@35f421aef52d:/#</code></pre><p id="91b74b5b-f8c5-4c60-8a2f-0acda69e1c15" cl
 $ sudo apt-get -y install socat conntrack ipset</code></pre><p id="72e29988-171f-48bb-b7eb-a6e76ed67cac" class="">
 </p><p id="790ba642-25e0-4c51-8168-3e8607c1e037" class=""><strong>Disabling Swap </strong></p><p id="aff1b51e-6a7a-4039-8b3c-a7e7821e7acf" class="">By default the kubelet will fail to start if swap is enabled. It is recommended that swap be disabled to ensure Kubernetes can provide proper resource allocation and quality of service.</p><pre id="8ca342a7-f1e0-4498-8989-8fd9c8620b53" class="code"><code>$ sudo swapon --show # verify, if empty then not enabled
 $ sudo swapoff -a    # disable swap space</code></pre><p id="3f7777c4-25fb-404a-a8ec-f6278d79585f" class="">To disable swap permanently, comment out swapfile or swap entry in /etc/fstab</p><p id="a45fead2-05c7-4b97-a3fd-42b6bc1aff4d" class="">
-</p><p id="bc494a90-35e3-49bf-b9fc-b4ff4c134414" class=""><strong>Kubernetes Component Installation  </strong></p><pre id="f45e3056-1a60-4b2d-a147-b35b5186c07a" class="code"><code>wget -q --show-progress --https-only --timestamping \
+</p><p id="bc494a90-35e3-49bf-b9fc-b4ff4c134414" class=""><strong>Kubernetes Component Installation  </strong></p><pre id="f45e3056-1a60-4b2d-a147-b35b5186c07a" class="code"><code>$ wget -q --show-progress --https-only --timestamping \
   https://storage.googleapis.com/kubernetes-release/release/v1.15.3/bin/linux/amd64/kubectl \
   https://storage.googleapis.com/kubernetes-release/release/v1.15.3/bin/linux/amd64/kube-proxy \
   https://storage.googleapis.com/kubernetes-release/release/v1.15.3/bin/linux/amd64/kubelet
 
-sudo mkdir -p \
+$ sudo mkdir -p \
   /var/lib/kubelet \
   /var/lib/kube-proxy \
   /var/lib/kubernetes \
   /var/run/kubernetes
 
-chmod +x kubectl kube-proxy kubelet 
-sudo mv kubectl kube-proxy kubelet /usr/local/bin/</code></pre><p id="e6b08820-d070-44a4-b29f-4080ffcb939e" class="">
-</p><h2 id="82b68843-4dcd-4bdf-93e9-86b56fe6f96f" class=""><mark class="highlight-teal">CHECKPOINT</mark> </h2><p id="65f3ef67-2250-4183-a25e-0142be1d1175" class=""><strong>Container Dependencies </strong></p><pre id="bcc55793-4748-4d7b-b55c-969c8135a8fd" class="code"><code>$ sudo wget -q --show-progress --https-only --timestamping \
+$ chmod +x kubectl kube-proxy kubelet 
+$ sudo mv kubectl kube-proxy kubelet /usr/local/bin/</code></pre><p id="e6b08820-d070-44a4-b29f-4080ffcb939e" class="">
+</p><h2 id="82b68843-4dcd-4bdf-93e9-86b56fe6f96f" class=""><mark class="highlight-teal">CHECKPOINT</mark> </h2><p id="65f3ef67-2250-4183-a25e-0142be1d1175" class=""><strong>Container Dependencies (Containerd)</strong></p><p id="2acc3d07-1191-474f-9cc8-7ce2c0bf4c99" class="">A kubelet runs on each worker node of a Kubernetes enabled cluster. Acting as the primary node agent, it is the primary of the pods and the node application programming interfaces (APIs) that drive the container execution layer. </p><p id="cf6db431-ebee-4b27-b947-7d1297aa3750" class="">To create a pod, kubelet needs a container runtime environment that is Open Container Initiative (OCI) compliant, ensuring compatibility with the Kubernetes Container Runtime Interface (CRI). OCI includes a set of specifications that container runtime engines must implement and a seed container runtime engine called runc. </p><p id="2d43f269-6b7a-4f53-9337-b39331cf23ab" class=""><a href="https://developer.ibm.com/technologies/containers/blogs/kube-cri-overview/">https://developer.ibm.com/technologies/containers/blogs/kube-cri-overview/</a></p><pre id="bcc55793-4748-4d7b-b55c-969c8135a8fd" class="code"><code>$ sudo wget -q --show-progress --https-only --timestamping \
   https://github.com/kubernetes-sigs/cri-tools/releases/download/v1.15.0/crictl-v1.15.0-linux-amd64.tar.gz \
   https://github.com/opencontainers/runc/releases/download/v1.0.0-rc8/runc.amd64 \
   https://github.com/containernetworking/plugins/releases/download/v0.8.2/cni-plugins-linux-amd64-v0.8.2.tgz \
@@ -1387,9 +1362,9 @@ $ rm cni-plugins-linux-amd64-v0.8.2.tgz
 $ rm containerd-1.2.9.linux-amd64.tar.gz
 $ rm crictl-v1.15.0-linux-amd64.tar.gz
 $ rm -r containerd/</code></pre><p id="5ccac7ba-6369-4279-99ff-c200db3003b5" class="">
-</p><p id="998eadbb-0d8f-48b1-8c2f-ca0afd545f88" class=""><strong>Configure CNI Networking </strong></p><pre id="30602970-f551-40e7-a93a-a3b26c63c024" class="code"><code>$ POD_CIDR=10.200.1.0/24 # for first worker, increment 3rd byte 
+</p><p id="998eadbb-0d8f-48b1-8c2f-ca0afd545f88" class=""><strong>Configure CNI Networking </strong></p><p id="af112eb9-2a19-445c-91a4-0651582bbb4a" class="">Kubernetes networking model requires:</p><ul id="2b4b1c2e-00cf-4f0e-b610-645a4f819c47" class="bulleted-list"><li>all containers can communicate with all other containers without NAT</li></ul><ul id="7d6c1125-db8f-4895-b912-6f9eae8c968e" class="bulleted-list"><li>all nodes can communicate with all containers (and vice-versa) without NAT</li></ul><ul id="e9e2e40f-e8b8-4726-8e1f-9399d338f1ba" class="bulleted-list"><li>the IP that a container see itself as is the same IP that others see it as</li></ul><p id="987ee4f0-e808-4c74-a1cb-adb76e007daf" class="">Since containers share a Pods networks, the above requirements apply to pods. In short, all Pods should be able to freely communicate with any other Pods in the cluster, even if they are in different Hosts, and they must recognize each other with their own IP address. The Host should be able to communicate with any Pod with it&#x27;s own IP address, without any address translation.</p><pre id="30602970-f551-40e7-a93a-a3b26c63c024" class="code"><code>$ POD_CIDR=10.200.1.0/24 # for first worker, increment 3rd byte 
 
-cat &lt;&lt;EOF | sudo tee /etc/cni/net.d/10-bridge.conf
+$ cat &lt;&lt;EOF | sudo tee /etc/cni/net.d/10-bridge.conf
 {
     &quot;cniVersion&quot;: &quot;0.3.1&quot;,
     &quot;name&quot;: &quot;bridge&quot;,
@@ -1407,16 +1382,16 @@ cat &lt;&lt;EOF | sudo tee /etc/cni/net.d/10-bridge.conf
 }
 EOF
 
-cat &lt;&lt;EOF | sudo tee /etc/cni/net.d/99-loopback.conf
+$ cat &lt;&lt;EOF | sudo tee /etc/cni/net.d/99-loopback.conf
 {
     &quot;cniVersion&quot;: &quot;0.3.1&quot;,
     &quot;name&quot;: &quot;lo&quot;,
     &quot;type&quot;: &quot;loopback&quot;
 }
 EOF</code></pre><p id="932ee620-5cad-4583-976e-f56f56de6353" class="">
-</p><p id="c3c269e1-5fc3-4354-ba45-fb18e59d5c15" class=""><strong>Configure Containerd</strong></p><pre id="b69b3a7c-b596-4a64-99ee-745183c4f112" class="code"><code>sudo mkdir -p /etc/containerd/
+</p><p id="c3c269e1-5fc3-4354-ba45-fb18e59d5c15" class=""><strong>Configure Containerd</strong></p><pre id="b69b3a7c-b596-4a64-99ee-745183c4f112" class="code"><code>$ sudo mkdir -p /etc/containerd/
 
-cat &lt;&lt; EOF | sudo tee /etc/containerd/config.toml
+$ cat &lt;&lt; EOF | sudo tee /etc/containerd/config.toml
 [plugins]
   [plugins.cri.containerd]
     snapshotter = &quot;overlayfs&quot;
@@ -1426,7 +1401,7 @@ cat &lt;&lt; EOF | sudo tee /etc/containerd/config.toml
       runtime_root = &quot;&quot;
 EOF
 
-cat &lt;&lt;EOF | sudo tee /etc/systemd/system/containerd.service
+$ cat &lt;&lt;EOF | sudo tee /etc/systemd/system/containerd.service
 [Unit]
 Description=containerd container runtime
 Documentation=https://containerd.io
@@ -1496,9 +1471,9 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF</code></pre><p id="381823bd-3888-4dd3-bad9-21c2ff46a8c2" class="">
-</p><p id="cd74d90a-95f4-454e-afa6-73d7024036fd" class=""><strong>Configure the Kubernetes Proxy </strong></p><pre id="5cb2b1f1-dfc5-4e29-b4e0-309475e21550" class="code"><code>sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
+</p><p id="cd74d90a-95f4-454e-afa6-73d7024036fd" class=""><strong>Configure the Kubernetes Proxy </strong></p><pre id="5cb2b1f1-dfc5-4e29-b4e0-309475e21550" class="code"><code>$ sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig
 
-cat &lt;&lt;EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
+$ cat &lt;&lt;EOF | sudo tee /var/lib/kube-proxy/kube-proxy-config.yaml
 kind: KubeProxyConfiguration
 apiVersion: kubeproxy.config.k8s.io/v1alpha1
 clientConnection:
@@ -1507,7 +1482,7 @@ mode: &quot;iptables&quot;
 clusterCIDR: &quot;10.200.0.0/16&quot;
 EOF
 
-cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-proxy.service
+$ cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-proxy.service
 [Unit]
 Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
@@ -1530,166 +1505,89 @@ Expected output:
 NAME          STATUS   ROLES    AGE    VERSION
 kubeworker1   Ready    &lt;none&gt;   4m5s   v1.15.3
 kubeworker2   Ready    &lt;none&gt;   24s    v1.15.3</code></pre><p id="0f2b9bce-e462-4cac-8f3a-a6dd4fc3750c" class="">
-</p><h1 id="e8a59bb4-79f2-4abb-8ded-458e1ee85032" class="">Remote Access kubectl</h1><p id="de235d1a-3ebb-451a-9173-44084aad6ed3" class="">Each kubeconfig requires a Kubernetes API Server to connect to. To support high availability the IP address assigned to the external load balancer fronting the Kubernetes API Servers will be used.</p><p id="95c4ace8-ecf6-479f-bbc6-b409eb8891c3" class="">
-</p><p id="d61327d0-a9e0-449b-a7ca-87dbba96bfb1" class="">tbc </p><p id="c5b6f44f-fc4a-4c08-be25-77c2b9572906" class="">
-</p><p id="a710de2e-bd6f-45e9-b129-9d0b69752faa" class="">
-</p><p id="f7957d61-19d7-4a5f-a1d3-dec798650c23" class="">
-</p><p id="7ad3707c-79d7-4500-97a7-c682192dd274" class="">
-</p><p id="c9eb097d-6af7-4c90-9f5b-8c385cbf2f10" class="">
-</p><p id="c2ccc0ff-464d-412d-bb26-19fd8dd40f8d" class="">
-</p><p id="363f6747-b2a7-4e33-ad43-c6fcb9c1561b" class="">
-</p><h2 id="f1acc562-2c44-46c6-bb61-3c92422f5fd9" class=""><mark class="highlight-blue">ALTERNATIVE</mark></h2><p id="b6720a2d-a07e-4c6f-bf36-ee1f1792af08" class="">
-</p><p id="fb185bff-2298-4cf4-bd53-20ad405a7848" class=""><strong>Configure CNI Networking </strong></p><p id="ec7e0e64-45f9-4955-9b11-ac2e6cde4685" class="">Create the bridge network configuration file:</p><p id="d390a518-03df-4cfd-9039-f012e6df2b7a" class=""><mark class="highlight-red">POD_CIDR</mark></p><pre id="47f1e179-876c-4366-a4cd-9b62c6a7780f" class="code"><code>POD_CIDR=10.200.0.0/24
-cat &lt;&lt;EOF | sudo tee /etc/cni/net.d/10-bridge.conf
-{
-    &quot;cniVersion&quot;: &quot;0.3.1&quot;,
-    &quot;name&quot;: &quot;bridge&quot;,
-    &quot;type&quot;: &quot;bridge&quot;,
-    &quot;bridge&quot;: &quot;cnio0&quot;,
-    &quot;isGateway&quot;: true,
-    &quot;ipMasq&quot;: true,
-    &quot;ipam&quot;: {
-        &quot;type&quot;: &quot;host-local&quot;,
-        &quot;ranges&quot;: [
-          [{&quot;subnet&quot;: &quot;${POD_CIDR}&quot;}]
-        ],
-        &quot;routes&quot;: [{&quot;dst&quot;: &quot;0.0.0.0/0&quot;}]
-    }
-}
-EOF</code></pre><p id="9a6b9096-654b-4ea1-ad9b-5d36485f1efe" class="">Create the loopback network configuration file </p><pre id="4783a70a-346f-4bdf-a609-b14bcf2998d9" class="code"><code>cat &lt;&lt;EOF | sudo tee /etc/cni/net.d/99-loopback.conf
-{
-    &quot;cniVersion&quot;: &quot;0.3.1&quot;,
-    &quot;name&quot;: &quot;lo&quot;,
-    &quot;type&quot;: &quot;loopback&quot;
-}
-EOF</code></pre><p id="284a5dd5-2f62-4646-9ab6-da002f014a0d" class="">
-</p><p id="114b5d65-14ee-49e4-856a-463e115733bd" class="">
-</p><p id="018b81ea-f3fe-473e-a4c3-aefc45085117" class=""><strong>Docker </strong></p><p id="133cc68c-a2ae-4250-865d-491c5d97ec58" class=""><a href="https://kubernetes.io/docs/setup/production-environment/container-runtimes/">https://kubernetes.io/docs/setup/production-environment/container-runtimes/</a></p><p id="ea6b80fe-4643-4454-9b7b-769be8a94085" class="">Download </p><pre id="41205337-b368-4c6e-9684-fb56c4eee287" class="code"><code>$ sudo apt-get update
-$ sudo apt-get install -y \
-  apt-transport-https ca-certificates curl software-properties-common gnupg2
+</p><h1 id="e8a59bb4-79f2-4abb-8ded-458e1ee85032" class="">Remote Access kubectl</h1><p id="de235d1a-3ebb-451a-9173-44084aad6ed3" class="">Each kubeconfig requires a Kubernetes API Server to connect to. To support high availability the IP address assigned to the external load balancer fronting the Kubernetes API Servers will be used.</p><pre id="10e0c5c6-55b5-43d2-bb0a-4bb78d268426" class="code"><code>$ {
+  KUBERNETES_PUBLIC_ADDRESS=10.0.0.1
 
-$ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+  kubectl config set-cluster k8s_cluster \
+    --certificate-authority=ca.pem \
+    --embed-certs=true \
+    --server=https://${KUBERNETES_PUBLIC_ADDRESS}:6443
 
-$ sudo add-apt-repository \
-  &quot;deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) \
-  stable&quot;
+  kubectl config set-credentials admin \
+    --client-certificate=admin.pem \
+    --client-key=admin-key.pem
 
-$ sudo apt-get update
-$ sudo apt-get install -y \
-  containerd.io=1.2.13-2 \
-  docker-ce=5:19.03.11~3-0~ubuntu-$(lsb_release -cs) \
-  docker-ce-cli=5:19.03.11~3-0~ubuntu-$(lsb_release -cs)
+  kubectl config set-context k8s_cluster \
+    --cluster=k8s_cluster \
+    --user=admin
 
-$ cat &gt; /etc/docker/daemon.json &lt;&lt;EOF
-{
-  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],
-  &quot;log-driver&quot;: &quot;json-file&quot;,
-  &quot;log-opts&quot;: {
-    &quot;max-size&quot;: &quot;100m&quot;
-  },
-  &quot;storage-driver&quot;: &quot;overlay2&quot;
-}
-EOF
+  kubectl config use-context k8s_cluster
+}</code></pre><p id="c5b6f44f-fc4a-4c08-be25-77c2b9572906" class="">
+</p><h1 id="a710de2e-bd6f-45e9-b129-9d0b69752faa" class="">Network Routes</h1><p id="f7957d61-19d7-4a5f-a1d3-dec798650c23" class="">Pods scheduled to a node receive an IP address from the node&#x27;s Pod CIDR range. At this point pods can not communicate with other pods running on different nodes due to missing network routes. </p><pre id="5207437d-da3e-4a08-ba4a-1345a2881cc6" class="code"><code># Kernel IP routing table (host machine) 
+$ netstat -rn 
+# OR 
+$ route -n </code></pre><p id="c9eb097d-6af7-4c90-9f5b-8c385cbf2f10" class="">Map the node&#x27;s Pod CIDR range to the node&#x27;s internal IP address.</p><p id="e4077c35-43e8-4bbf-8b7f-bbe4eefeca16" class="">POD CIDR 10.200.1.0/24 → 10.0.0.5 </p><pre id="ec8c9c0d-aac7-4213-aa09-a0a21461779e" class="code"><code>$ sudo route add -net 10.200.1.0 netmask 255.255.255.0 gw 10.0.0.5</code></pre><p id="c2ccc0ff-464d-412d-bb26-19fd8dd40f8d" class="">POD CIDR 10.200.2.0/24 → 10.0.0.6 </p><pre id="286598f9-22e7-426a-99c3-3bccb2f1d549" class="code"><code>$ sudo route add -net 10.200.2.0 netmask 255.255.255.0 gw 10.0.0.6</code></pre><p id="363f6747-b2a7-4e33-ad43-c6fcb9c1561b" class="">IP routing table output</p><pre id="3dbfe02f-c009-4c69-8d77-8eb808cc6521" class="code"><code>Kernel IP routing table
+Destination     Gateway         Genmask         Flags   MSS Window  irtt Iface
+0.0.0.0         192.168.1.1     0.0.0.0         UG        0 0          0 wlx1cbfce66c30a
+10.0.0.0        0.0.0.0         255.255.255.0   U         0 0          0 vboxnet0
+10.200.1.0      10.0.0.5        255.255.255.0   UG        0 0          0 vboxnet0
+10.200.2.0      10.0.0.6        255.255.255.0   UG        0 0          0 vboxnet0
+172.17.0.0      0.0.0.0         255.255.0.0     U         0 0          0 docker0
+192.168.1.0     0.0.0.0         255.255.255.0   U         0 0          0 wlx1cbfce66c30a</code></pre><p id="f1acc562-2c44-46c6-bb61-3c92422f5fd9" class="">
+</p><p id="2c9708b6-3ec0-4c9b-a172-e4dae5ca2d17" class=""><strong>DNS Cluster Add-on</strong></p><p id="256a17ea-6504-43ff-b1ef-def8734b4a8c" class=""><mark class="highlight-red">Unresolved issue here: 127.0.0.53:53: server misbehaving </mark></p><pre id="12b3ead1-e0b8-4ac4-b58e-ab9c23a1f72e" class="code"><code>$ sudo kubectl apply -f https://storage.googleapis.com/kubernetes-the-hard-way/coredns.yaml
 
-$ mkdir -p /etc/systemd/system/docker.service.d
+# Expected output 
+serviceaccount/coredns created
+clusterrole.rbac.authorization.k8s.io/system:coredns created
+clusterrolebinding.rbac.authorization.k8s.io/system:coredns created
+configmap/coredns created
+deployment.extensions/coredns created
+service/kube-dns created</code></pre><p id="b5f1e378-34b4-4bf1-b117-344a75a37cf0" class="">List the pods created by the kube-dns deployment</p><pre id="0287dc0b-de11-4ea0-bbc6-21b84b2bc838" class="code"><code>$ sudo kubectl get pods -l k8s-app=kube-dns -n kube-system
 
-$ systemctl daemon-reload
-$ systemctl restart docker
-$ sudo systemctl enable docker</code></pre><p id="156bf7c5-0062-48b8-9bc3-0390cb870ea7" class="">
-</p><p id="eca5bd4b-83b1-4a9e-94aa-9ca7be2fbbda" class=""><strong>Kubelet configuration</strong></p><p id="aefc6f5a-8362-4a30-b127-bac7b1ffaf55" class="">Move configs and certs </p><pre id="42dbff0d-1c00-46c3-81f5-cd212161d97f" class="code"><code>$ sudo mv ${HOSTNAME}-key.pem ${HOSTNAME}.pem /var/lib/kubelet/
-$ sudo mv ${HOSTNAME}.kubeconfig /var/lib/kubelet/kubeconfig
-$ sudo mv ca.pem /var/lib/kubernetes/</code></pre><p id="356ca796-f586-4e6c-acb5-da680b105555" class="">Create the kubelet-config.yaml configuration file:</p><p id="d954f9aa-ed7a-48eb-b3e2-174861c32221" class=""><mark class="highlight-red">POD CIDR defined, clusterDNS </mark></p><p id="96708d52-a35b-4048-be80-c851d4630031" class="">10.200.${i}.0/24</p><pre id="e9b60ef0-e593-4900-9858-262011310a88" class="code"><code>POD_CIDR=10.200.0.0/24 # for first worker 
+# Expected output 
+NAME                     READY   STATUS    RESTARTS   AGE
+coredns-5fb99965-f7l8d   0/1     Running   1          12h
+coredns-5fb99965-gsd4f   0/1     Running   1          12h</code></pre><p id="f3fbf71b-d01e-4b69-9768-f733cc0137f2" class="">
+</p><h1 id="61f132eb-a183-4789-90db-17a4c280aab5" class="">Pod Verification</h1><pre id="9c4ff8aa-51b3-4fb1-98c5-115718bd2744" class="code"><code>$ kubectl run --generator=run-pod/v1 busybox --image=busybox:1.28 --command -- sleep 3600
+$ kubectl get pods -l run=busybox
 
-cat &lt;&lt;EOF | sudo tee /var/lib/kubelet/kubelet-config.yaml
-kind: KubeletConfiguration
-apiVersion: kubelet.config.k8s.io/v1beta1
-authentication:
-  anonymous:
-    enabled: false
-  webhook:
-    enabled: true
-  x509:
-    clientCAFile: &quot;/var/lib/kubernetes/ca.pem&quot;
-authorization:
-  mode: Webhook
-clusterDomain: &quot;cluster.local&quot;
-clusterDNS:
-  - &quot;10.32.0.10&quot;
-podCIDR: &quot;${POD_CIDR}&quot;
-resolvConf: &quot;/run/systemd/resolve/resolv.conf&quot;
-runtimeRequestTimeout: &quot;15m&quot;
-tlsCertFile: &quot;/var/lib/kubelet/${HOSTNAME}.pem&quot;
-tlsPrivateKeyFile: &quot;/var/lib/kubelet/${HOSTNAME}-key.pem&quot;
-EOF</code></pre><p id="998ee37a-5e57-4b57-bc9b-0b584f82e927" class="">Create the kubelet.service systemd unit file:</p><pre id="8a606f29-b662-493d-bafa-f9f39213f48a" class="code"><code>cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kubelet.service
-[Unit]
-Description=Kubernetes Kubelet
-Documentation=https://github.com/kubernetes/kubernetes
-After=docker.service.d
-Requires=docker.service.d
-
-[Service]
-ExecStart=/usr/local/bin/kubelet \\
-  --config=/var/lib/kubelet/kubelet-config.yaml \\
-  --container-runtime=remote \\
-  --container-runtime-endpoint=unix:///var/run/docker/metrics.sock \\
-  --image-pull-progress-deadline=2m \\
-  --kubeconfig=/var/lib/kubelet/kubeconfig \\
-  --network-plugin=cni \\
-  --register-node=true \\
-  --v=2
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF</code></pre><p id="0f3985ad-c991-44e9-83d9-63d5d35a427f" class="">
-</p><p id="b97c99cf-8243-414f-9c99-023f24addff6" class=""><strong>Kubernetes Proxy Configuration</strong></p><pre id="948bcf8a-9474-4191-8605-feb470ec0696" class="code"><code>sudo mv kube-proxy.kubeconfig /var/lib/kube-proxy/kubeconfig</code></pre><p id="b25926ac-efb5-4f3e-b79b-8918079398d8" class="">Create the kube-proxy-config.yaml configuration file:</p><pre id="7b884daa-c004-427b-8600-b693a34c5522" class="code"><code>cat &lt;&lt;EOF | sudo tee /etc/systemd/system/kube-proxy.service
-[Unit]
-Description=Kubernetes Kube Proxy
-Documentation=https://github.com/kubernetes/kubernetes
-
-[Service]
-ExecStart=/usr/local/bin/kube-proxy \\
-  --config=/var/lib/kube-proxy/kube-proxy-config.yaml
-Restart=on-failure
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF</code></pre><p id="f5201162-787a-4f92-be85-310101625203" class="">
-</p><p id="3c2e3266-1775-428d-87c9-6318da788a42" class=""><strong>Start Worker Services </strong></p><pre id="bda1f11e-1966-472a-8e0f-4d9f6a8ee549" class="code"><code>$ sudo systemctl daemon-reload
-$ sudo systemctl enable containerd kubelet kube-proxy
-$ sudo systemctl start containerd kubelet kube-proxy</code></pre><p id="686221d6-80d7-4989-969b-f33625a37153" class="">
-</p><p id="7114b427-66c5-4735-8c7e-d9d3020deef1" class=""><strong>Kubernetes Container Runtime Interface (CRI) </strong></p><p id="ee68243b-bf22-4e0b-bc29-1e115d5e57fb" class="">A kubelet runs on each worker node of a Kubernetes enabled cluster. Acting as the primary node agent, it is the primary of the pods and the node application programming interfaces (APIs) that drive the container execution layer. </p><p id="861637a2-90ec-4408-92ce-e6a5946da71c" class="">Pods can host multiple application containers and storage volumes. Pods are the fundamental execution primitive of Kubernetes. After kubelet gets the configuration of a pod through its pod spec, it ensures that the specified containers for the pod are up and running. </p><p id="8ed79169-fbe9-484a-a7ec-78e463223e40" class="">To create a pod, kubelet needs a container runtime environment that is Open Container Initiative (OCI) compliant, ensuring compatibility with the Kubernetes Container Runtime Interface (CRI). OCI includes a set of specifications that container runtime engines must implement and a seed container runtime engine called runc. </p><p id="5f93209c-cf02-4237-a4fd-8f58fb903c06" class=""><a href="https://developer.ibm.com/technologies/containers/blogs/kube-cri-overview/">https://developer.ibm.com/technologies/containers/blogs/kube-cri-overview/</a></p><p id="3094ddcf-095a-41cc-96a6-f1cefb2437fa" class="">
-</p><hr id="0f4fb97f-83a9-45e0-be67-57761eb370d9"/><hr id="697db666-ad0b-40f5-8be1-36df502c05eb"/><hr id="69082230-2a60-4d4b-98c5-fe639ee89b74"/><p id="21ea47ba-702c-4797-9cd5-dc192415b813" class="">
-</p><hr id="5d0bb6f7-7ebe-4b44-921a-d856f45c48d7"/><hr id="423804fd-2dca-49da-a460-0c4be1383595"/><hr id="4a3fbb04-299e-400f-9093-e355b0e1a810"/><hr id="fddd3c98-aeeb-41dc-8298-d02efacef0cc"/><p id="4a7c2668-3949-4ae7-8067-cdf62c843ffd" class="">
-</p><p id="7b148636-701d-4bcc-986b-f9d9fe3e8307" class="">
-</p><p id="c4d81c57-1441-4b3c-9d8d-9705779862a5" class="">
-</p><h1 id="25b87a32-c613-4873-834a-e1e8acf4d64f" class="">Networking</h1><p id="bd60dc71-3660-430a-8e23-6bcf573f0986" class=""><a href="https://neuvector.com/network-security/advanced-kubernetes-networking/">https://neuvector.com/network-security/advanced-kubernetes-networking/</a></p><p id="371405dc-7bb0-4a3a-b11b-9156e1c57711" class=""><a href="https://blog.octo.com/en/author/sebastian-caceres-sca/page/2/">https://blog.octo.com/en/author/sebastian-caceres-sca/page/2/</a></p><p id="14d188a7-e59a-482d-b7f4-b1976a374901" class=""><a href="https://blog.octo.com/en/how-does-it-work-kubernetes-episode-5-master-and-worker-at-last/">https://blog.octo.com/en/how-does-it-work-kubernetes-episode-5-master-and-worker-at-last/</a></p><p id="f9a03487-6f3c-4161-bdc6-285be5ef1dad" class="">
-</p><p id="2cb0be39-4971-4e0a-b105-774d47b8b264" class="">Flannel </p><p id="eeb36f7c-ce21-4240-8966-b2a664d90112" class=""><a href="https://github.com/coreos/flannel-cni/tree/v0.3.0#readme">https://github.com/coreos/flannel-cni/tree/v0.3.0#readme</a></p><p id="0c43cdf5-cf22-4b2b-879b-7147b5cbb804" class=""><a href="https://github.com/coreos/flannel/blob/master/Documentation/running.md">https://github.com/coreos/flannel/blob/master/Documentation/running.md</a></p><p id="0a2105e1-6182-4474-95cb-6a98fba25b00" class=""><a href="https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c">https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c</a></p><p id="ea3f9f51-1c5d-45e9-8b2e-3cc4ee8e523b" class=""><a href="https://github.com/coreos/flannel-cni/tree/v0.3.0#readme">https://github.com/coreos/flannel-cni/tree/v0.3.0#readme</a></p><p id="8daff827-feba-49b8-86f0-96b68ad7a623" class=""><a href="https://neuvector.com/network-security/advanced-kubernetes-networking/">https://neuvector.com/network-security/advanced-kubernetes-networking/</a></p><p id="c059775e-c1ba-44d5-a1b0-8bfa2685d169" class="">
-</p><p id="0a318ab7-1c9b-41e3-93cc-45000861e090" class="">The official documentation
-<a href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a>
-says kubernetes networking model requires:</p><ul id="46f63a3e-6523-4b6e-b870-a3bee06aacaa" class="bulleted-list"><li>all containers can communicate with all other containers without NAT</li></ul><ul id="71ea1d37-e9cd-494b-b541-33c3292dca5c" class="bulleted-list"><li>all nodes can communicate with all containers (and vice-versa) without NAT</li></ul><ul id="6fde42cd-cd65-41c8-b48c-a9ee4c8c6cd5" class="bulleted-list"><li>the IP that a container see iteself as is the same IP that others see it as
-Since containers share a Pods networks, the above requirements apply to pods.
-In short, all Pods should be able to freely communicate with any other Pods in the cluster, even if they are in different Hosts, and they recognize each other with their own IP address. The Host should be able to communicate with any Pod with it&#x27;s own IP address, without any address translation.</li></ul><p id="bcf9914c-308f-4c80-924c-b982697e7454" class="">Kubernetes does not provide any default network implementation, rather it only defines the model and leaves implementation to other tools, e.g. flannel.</p><p id="e7bc25d5-3a0a-45b3-9ce6-f5478310b452" class=""><a href="https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c">https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c</a><a href="https://createnetech.tistory.com/30">https://createnetech.tistory.com/30</a><a href="https://github.com/coreos/flannel/blob/master/Documentation/running.md">https://github.com/coreos/flannel/blob/master/Documentation/running.md</a></p><p id="0e194efc-1524-4924-bc54-adeb2b187f62" class="">Flannel - The Overlay Network
-To achieve kubernetes&#x27; network requirements flannel:</p><ul id="b58b10eb-37a8-4a1a-97e2-e82282e03d7e" class="bulleted-list"><li>creates another flat network whcih runs above the hostr network (overlay)</li></ul><ul id="6aa1726c-023f-464e-afcc-d074cec4bde5" class="bulleted-list"><li>Assigns all containers (Pod) an IP address in this overlay network</li></ul><ul id="b30a2d98-a6f8-43b6-a2d1-af35c1c73de3" class="bulleted-list"><li>Pods communicate with each other by calling the other&#x27;s ip address directly</li></ul><h1 id="8e05938f-8a31-4cfd-b573-c21e861300e1" class="">Pods and Containers</h1><p id="996fe30d-869a-4b9b-8837-623e37fad572" class=""><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/</a></p><p id="307a48eb-d25e-4ace-b4d3-b3342e6c61b9" class="">
-</p><p id="a9fa5131-ae9f-4c57-a923-f5538c34fade" class="">
-</p><h1 id="952e6451-153c-4ca6-9ca0-490d22e55385" class="">Demo </h1><p id="c269f6d9-b663-45d2-a000-364c6f94d90e" class=""><a href="https://www.ulam.io/blog/kubernetes-scratch/">https://www.ulam.io/blog/kubernetes-scratch/</a></p><p id="c35ffc0f-7edb-4b0a-acea-e4a6c39dee5a" class="">
-</p><p id="c8211fd2-ea1b-4939-a720-ef661ec21b6e" class="">ETCD </p><pre id="4eab8cdf-fe1d-4e03-84f1-abec76f476f3" class="code"><code>export GOROOT=/usr/lib/go
+# Expected output 
+NAME      READY   STATUS    RESTARTS   AGE
+busybox   1/1     Running   12         12h</code></pre><p id="511a0d29-4e62-4d83-8fcd-ba63f1b6db75" class="">
+</p><p id="60e63336-d304-4873-a894-c43d24483e1f" class="">
+</p><h2 id="d130bede-ea70-4d4d-8ff2-c24dd3499fd7" class="">Useful Links </h2><p id="018b81ea-f3fe-473e-a4c3-aefc45085117" class=""><strong>Docker </strong></p><p id="133cc68c-a2ae-4250-865d-491c5d97ec58" class=""><a href="https://kubernetes.io/docs/setup/production-environment/container-runtimes/">https://kubernetes.io/docs/setup/production-environment/container-runtimes/</a></p><p id="3094ddcf-095a-41cc-96a6-f1cefb2437fa" class=""><strong>Networking</strong></p><p id="bd60dc71-3660-430a-8e23-6bcf573f0986" class=""><a href="https://neuvector.com/network-security/advanced-kubernetes-networking/">https://neuvector.com/network-security/advanced-kubernetes-networking/</a></p><p id="371405dc-7bb0-4a3a-b11b-9156e1c57711" class=""><a href="https://blog.octo.com/en/author/sebastian-caceres-sca/page/2/">https://blog.octo.com/en/author/sebastian-caceres-sca/page/2/</a></p><p id="14d188a7-e59a-482d-b7f4-b1976a374901" class=""><a href="https://blog.octo.com/en/how-does-it-work-kubernetes-episode-5-master-and-worker-at-last/">https://blog.octo.com/en/how-does-it-work-kubernetes-episode-5-master-and-worker-at-last/</a></p><p id="2cb0be39-4971-4e0a-b105-774d47b8b264" class=""><strong>Flannel</strong> </p><p id="eeb36f7c-ce21-4240-8966-b2a664d90112" class=""><a href="https://github.com/coreos/flannel-cni/tree/v0.3.0#readme">https://github.com/coreos/flannel-cni/tree/v0.3.0#readme</a></p><p id="0c43cdf5-cf22-4b2b-879b-7147b5cbb804" class=""><a href="https://github.com/coreos/flannel/blob/master/Documentation/running.md">https://github.com/coreos/flannel/blob/master/Documentation/running.md</a></p><p id="0a2105e1-6182-4474-95cb-6a98fba25b00" class=""><a href="https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c">https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c</a></p><p id="ea3f9f51-1c5d-45e9-8b2e-3cc4ee8e523b" class=""><a href="https://github.com/coreos/flannel-cni/tree/v0.3.0#readme">https://github.com/coreos/flannel-cni/tree/v0.3.0#readme</a></p><p id="8daff827-feba-49b8-86f0-96b68ad7a623" class=""><a href="https://neuvector.com/network-security/advanced-kubernetes-networking/">https://neuvector.com/network-security/advanced-kubernetes-networking/</a></p><pre id="c32abec5-dc2c-47f6-8180-a8ec47c1ab06" class="code"><code># Setting GOPATH for etcd official build installation
+export GOROOT=/usr/lib/go
 export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin</code></pre><p id="1a74b4a2-a6fa-41c8-b33b-5325bb96585c" class=""><a href="https://unofficial-kubernetes.readthedocs.io/en/latest/getting-started-guides/fedora/flannel_multi_node_cluster/#prerequisites">https://unofficial-kubernetes.readthedocs.io/en/latest/getting-started-guides/fedora/flannel_multi_node_cluster/#prerequisites</a></p><pre id="42354d97-2765-46e2-a6e2-9b2f7f1b8b34" class="code"><code># Set 
-sudo ETCDCTL_API=3 etcdctl put /coreos.com/network/config &lt; flannel-config.json --endpoints=https://127.0.0.1:2379  --cacert=/etc/etcd/ca.pem  --cert=/etc/etcd/kubernetes.pem  --key=/etc/etcd/kubernetes-key.pem
-# Check
-sudo ETCDCTL_API=3 etcdctl get /coreos.com/network/config --endpoints=https://127.0.0.1:2379  --cacert=/etc/etcd/ca.pem  --cert=/etc/etcd/kubernetes.pem  --key=/etc/etcd/kubernetes-key.pem
-</code></pre><p id="0e5675af-f4b2-4d99-8366-25e508f02e7d" class="">GO </p><pre id="a914f8e4-c029-48e5-b905-2e015c08748f" class="code"><code>$sudo apt install golang -y</code></pre><p id="02904e35-8d43-4276-8555-7452c8787fc8" class="">Just add the following lines to ~/.bashrc (Of your user)</p><pre id="ee840cab-aa22-4af3-acd8-6bb666d63ee8" class="code"><code>export GOROOT=/usr/lib/go
-export GOPATH=$HOME/go
-export PATH=$PATH:$GOROOT/bin:$GOPATH/bin</code></pre><p id="577b05b5-94bc-443f-b43e-5fb9d38b6f8d" class="">GO - Flannel </p><pre id="efe0eb08-a965-4355-b1e3-d6172559fac7" class="code"><code>cd ~
-export GOPATH=$(pwd)
-mkdir -p src/github.com/coreos
-cd src/github.com/coreos
-git clone https://github.com/coreos/flannel.git
-cd flannel
-make dist/flanneld</code></pre><p id="acbc8540-8667-4cbf-ba66-5aaba411a4e4" class=""><a href="https://icicimov.github.io/blog/kubernetes/Kubernetes-cluster-step-by-step-Part4/">https://icicimov.github.io/blog/kubernetes/Kubernetes-cluster-step-by-step-Part4/</a></p><p id="30005a51-d406-4d12-a32c-25a4fc90aa86" class="">
-</p><p id="182eee03-8781-4517-978a-f7ab74205ad1" class="">
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin</code></pre><p id="48efba51-4091-466c-801a-7bdecf5f9b10" class=""><a href="https://icicimov.github.io/blog/kubernetes/Kubernetes-cluster-step-by-step-Part4/">https://icicimov.github.io/blog/kubernetes/Kubernetes-cluster-step-by-step-Part4/</a></p><p id="c059775e-c1ba-44d5-a1b0-8bfa2685d169" class=""><strong>Official documentation</strong>
+<a href="https://kubernetes.io/docs/concepts/cluster-administration/networking/">https://kubernetes.io/docs/concepts/cluster-administration/networking/</a></p><p id="e7bc25d5-3a0a-45b3-9ce6-f5478310b452" class=""><a href="https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c">https://blog.laputa.io/kubernetes-flannel-networking-6a1cb1f8ec7c</a><a href="https://createnetech.tistory.com/30">https://createnetech.tistory.com/30</a><a href="https://github.com/coreos/flannel/blob/master/Documentation/running.md">https://github.com/coreos/flannel/blob/master/Documentation/running.md</a></p><p id="8e05938f-8a31-4cfd-b573-c21e861300e1" class=""><strong>POD-container configuration</strong></p><p id="996fe30d-869a-4b9b-8837-623e37fad572" class=""><a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/">https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/</a></p><p id="307a48eb-d25e-4ace-b4d3-b3342e6c61b9" class=""><strong>Demo</strong></p><p id="c269f6d9-b663-45d2-a000-364c6f94d90e" class=""><a href="https://www.ulam.io/blog/kubernetes-scratch/">https://www.ulam.io/blog/kubernetes-scratch/</a></p><p id="c35ffc0f-7edb-4b0a-acea-e4a6c39dee5a" class=""><strong>etcd</strong></p><p id="578326b0-fdfe-48a7-9d27-524f3dd5cfb5" class=""><a href="https://unofficial-kubernetes.readthedocs.io/en/latest/getting-started-guides/fedora/flannel_multi_node_cluster/#prerequisites">https://unofficial-kubernetes.readthedocs.io/en/latest/getting-started-guides/fedora/flannel_multi_node_cluster/#prerequisites</a></p><h2 id="ddf0a283-0c48-4b56-b6e9-bfe810fe2818" class="">Cheatsheet</h2><pre id="f1f26d9e-8bcf-41de-b578-8cdee8d96abb" class="code"><code># View cluster configuration (kubeconfig files) 
+$ kubectl config view
+$ kubectl get pods 
+
+# Launch an Nginx container 
+$ kubectl get pods -l app=nginx
+
+
+# SSH into node instances
+$ ssh dev@10.0.0.3
+
+# Make a HTTP request for the Kubernetes version info:
+curl --cacert ca.pem https://${KUBERNETES_PUBLIC_ADDRESS}:6443/version
+# Expected output 
+{
+  &quot;major&quot;: &quot;1&quot;,
+  &quot;minor&quot;: &quot;15&quot;,
+  &quot;gitVersion&quot;: &quot;v1.15.3&quot;,
+  &quot;gitCommit&quot;: &quot;2d3c76f9091b6bec110a5e63777c332469e0cba2&quot;,
+  &quot;gitTreeState&quot;: &quot;clean&quot;,
+  &quot;buildDate&quot;: &quot;2019-08-19T11:05:50Z&quot;,
+  &quot;goVersion&quot;: &quot;go1.12.9&quot;,
+  &quot;compiler&quot;: &quot;gc&quot;,
+  &quot;platform&quot;: &quot;linux/amd64&quot;
+}
+
+# Component status 
+kubectl get componentstatuses --kubeconfig admin.kubeconfig
+
+# Get etcd values that match prefix (&#x27;/&#x27; here) 
+$ sudo ETCDCTL_API=3 etcdctl get / --prefix  --endpoints=https://10.0.0.3:2379   --cacert=/etc/etcd/ca.pem   --cert=/etc/etcd/kubernetes.pem   --key=/etc/etcd/kubernetes-key.pem</code></pre><p id="bd810f8e-190c-4368-8ab6-d3f2298071bc" class="">
 </p></div></article></body></html>

@@ -6,4 +6,8 @@
 /certs/
 /certs
 
+# schematic
+*.png 
 
+# guide 
+*.pdf
